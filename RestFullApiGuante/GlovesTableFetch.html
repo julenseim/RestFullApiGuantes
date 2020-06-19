@@ -1,0 +1,122 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+
+    <script src="Scripts/jquery-3.5.1.js"></script>
+    <script type="text/javascript">
+        //var contenido = document.getElementById('contenido');
+
+        function traer() {
+            fetch('https://localhost:44343/api/guantes')
+                .then(res => res.json())
+                .then(datos => {
+                    //console.log(data)
+                    tabla(datos)                    
+                })
+        }
+        function tabla(datos) {
+            //console.log(datos)
+            contenido.innerHTML = ''
+            for (let valor of datos) {
+                //console.log(valor)
+                contenido.innerHTML += `
+                                <tr>
+                   <th scope="row">${valor.Id}</th>
+                <td>${valor.Nombre}</td>
+                <td>${valor.Precio}</td>
+                <td>${valor.Color}</td>
+            </tr>
+                `
+            }
+        }
+        function traerId() {
+            fetch('https://localhost:44343/api/guantes')
+                .then(res => res.json())
+                .then(datos => {
+                    //console.log(data)
+                    tablaID(datos)
+                })
+        }
+        function tablaID(datos) {
+            //console.log(datos)
+            contenido.innerHTML = ''
+            var filtro = document.querySelector('txtGetIt').value
+            let valor = document.getElementById("contenido").value = datos.Id;
+                //console.log(valor)
+                contenido.innerHTML = `
+                                <tr>
+                   <th scope="row">${valor.Id}</th>
+                <td>${valor.Nombre}</td>
+                <td>${valor.Precio}</td>
+                <td>${valor.Color}</td>
+            </tr>
+                `
+            }
+        
+
+        function Llevar(data) {
+            var url = 'https://localhost:44343/api/guantes';
+            const Id = HTMLInputElement.value;
+            const Nombre = HTMLInputElement.value;
+            const Precio = HTMLInputElement.value;
+            const Color = HTMLInputElement.value;
+            document.getElementById("postID").value = Id;
+            document.getElementById("postNombre").value = Nombre;
+            document.getElementById("postPrecio").value = Precio;
+            document.getElementById("postColor").value = Color;
+            var data = {Id, Nombre, Precio, Color};
+
+            fetch(url, {
+                method: 'POST', // or 'PUT'
+                body: JSON.stringify(data), 
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }).then(res => res.json())
+                .catch(error => console.error('Error:', error))
+                .then(response => console.log('Success:', response));
+        }
+        function clear() {
+            document.getElementById('contenido').innerHTML.value ='';
+        }
+
+    </script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+</head>
+<body>
+    <center>
+        <form>
+            <input id="btn" type="button" value="Get All Gloves" class="btn" onclick="traer()"/>
+            <input id="btnClear" type="button" value="Clear" class="btn" onclick="clear()" /><br />
+            <a>Get This ID Glove Info</a>
+            <input id="txtGetIt" type="text" />
+            <input id="GetIt" type="button" value="GetIt" onclick="traerId()" />
+
+            <div id="inputGlove" class="m-5">
+                <input id="postID" type="text" />
+                <input id="postNombre" type="text" />
+                <input id="postPrecio" type="text" />
+                <input id="postColor" type="text" />
+                <input id="btnPost" type="button" value="Post Glove" class="btn" onclick="Llevar()" />
+            </div>
+        </form>
+        <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Precio</th>
+                <th scope="col">Color</th>
+            </tr>
+        </thead>
+        <tbody id="contenido">
+
+        </tbody>
+    </table>
+
+    </center>
+
+</body>
+</html>

@@ -1,0 +1,58 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+
+    <script src="Scripts/jquery-3.5.1.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var ulGloves = $('#ulGloves');
+            //var GloveName = $('#GloveName');
+            //var GloveColor = $('#GloveColor');
+
+            $('#btnGetAll').click(function () {
+                $.ajax({
+                    type: 'GET',
+                    url: "https://localhost:44343/api/guantes",
+                    dataType: 'json',
+                    success: function (data) {
+                        ulGloves.empty();
+                        $.each(data, function (index, val) {
+                            var fullName = 'Nombre: ' + val.Nombre + ' Color: ' + val.Color + '  Precio: ' + val.Precio+'€';
+                            ulGloves.append('<li class="table">' + fullName + '</li>');
+                            ulGloves
+                            //var Name = val.Nombre;
+                            //var Color = val.Color;
+                            //ulGloves.append('<li>' + Name + '' + Color + '</li>')
+                            //GloveName.append('<td>' + Name + '</td>');
+                            //GloveColor.append(Color);
+                            
+                        });
+                    }
+                });
+            });
+
+            $('#btnClear').click(function () {
+                ulGloves.empty();
+            });
+
+        });
+    </script>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"/>
+</head>
+<body>
+    <center>
+        <form>
+            <input id="btnGetAll" type="button" value="Get All Gloves" class="btn" />
+            <input id="btnClear" type="button" value="Clear" class="btn" />
+        </form>
+        <ul id="ulGloves" class="table">
+            <!--<li id="GloveName">Glovename: </li>
+        <li id="GloveColor">GloveColor: </li>-->
+
+    </center>
+
+</body>
+</html>
